@@ -3,7 +3,7 @@ import { type FC } from 'react'
 
 import { Retool } from '@tryretool/custom-component-support'
 
-export const HelloWorld: FC = () => {
+export const CustomComponentTest: FC = () => {
   const [name, _setName] = Retool.useStateString({
     name: 'name'
   })

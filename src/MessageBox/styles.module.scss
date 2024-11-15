@@ -1,0 +1,60 @@
+.messageWrapper {
+  display: flex;
+  align-items: start;
+
+  .messageRow {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    margin: 4px;
+
+    &__customerMessage {
+      order: 2;
+      align-items: start;
+    }
+
+    &__assistantMessage {
+      order: 1;
+      align-items: end;
+    }
+  }
+
+  .messageBox {
+    padding: 8px 12px;
+    border-radius: 8px;
+
+    &__customerMessage {
+      max-width: 75%;
+      background-color: #f5f5f5;
+    }
+
+    &__assistantMessage {
+      max-width: 75%;
+      color: white;
+      background-color: #9664fa;
+    }
+
+    &__audio {
+      width: 75%;
+
+      audio {
+        width: 100%;
+      }
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .messageDate {
+      font-size: 12px;
+      margin-top: 16px;
+    }
+  }
+
+  .mediaContentMessage {
+    word-break: break-all;
+    display: flex;
+  }
+}

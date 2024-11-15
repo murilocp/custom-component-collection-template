@@ -1,0 +1,21 @@
+.avatarWrapper {
+  position: relative;
+
+  width: 30px;
+  height: 30px;
+
+  margin: 8px 0;
+
+  margin-right: 2px;
+
+  .avatarImg {
+    position: absolute;
+
+    width: 30px;
+    height: 30px;
+    left: 0;
+    top: 0;
+
+    border-radius: 50%;
+  }
+}

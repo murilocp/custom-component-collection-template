@@ -28,7 +28,15 @@
     "@typescript-eslint/parser": "^7.3.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
+    "postcss-modules": "^6.0.0",
     "prettier": "^3.0.3",
-    "postcss-modules": "^6.0.0"
+    "sass": "^1.80.6"
+  },
+  "retoolCustomComponentLibraryConfig": {
+    "name": "RetoolCustomComponents",
+    "label": "Retool Custom Components",
+    "description": "My library of Custom components to use on Retool",
+    "entryPoint": "src/index.tsx",
+    "outputPath": "dist"
   }
 }

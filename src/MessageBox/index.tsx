@@ -24,7 +24,29 @@ const MessageBox: React.FC<Props> = ({
   type
 }) => {
   const isUser = role === 'user'
-  const isAudio = type === 'audio'
+  const isAudio = type === 'audio' && mediaPath
+  const isDocument = type === 'document' && mediaPath
+
+  const messageContentRender = () => {
+    if (isDocument) {
+      return (
+        <a
+          href={mediaPath}
+          target="_blank"
+          rel="noreferrer"
+          className={styles.mediaContentMessage}
+        >
+          <Paperclip fill="#000" /> Arquivo
+        </a>
+      )
+    }
+
+    if (isAudio) {
+      return <audio controls src={mediaPath} />
+    }
+
+    return <p>{messageContent}</p>
+  }
 
   return (
     <div className={styles.messageWrapper}>
@@ -39,18 +61,8 @@ const MessageBox: React.FC<Props> = ({
         <div
           className={`${styles.messageBox} ${isUser ? styles.messageBox__customerMessage : styles.messageBox__assistantMessage} ${isAudio ? styles.messageBox__audio : ''}`}
         >
-          {type === 'text' && messageContent && <p>{messageContent}</p>}
-          {type === 'document' && mediaPath && (
-            <a
-              href={mediaPath}
-              target="_blank"
-              rel="noreferrer"
-              className={styles.mediaContentMessage}
-            >
-              <Paperclip fill="#000" /> Arquivo
-            </a>
-          )}
-          {isAudio && mediaPath && <audio controls src={mediaPath} />}
+          {messageContentRender()}
+
           <p className={styles.messageDate}>
             {new Date(date).toLocaleString('pt-BR')}
           </p>

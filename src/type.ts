@@ -41,18 +41,3 @@ export interface ApiResponse<T = object> {
   error?: string
   success: boolean
 }
-
-export interface CustomerInfo {
-  id: string
-  name: string
-  vatNumber: string
-  selfie: string
-  phoneNumber: string
-  gender: string
-  maritalStatus: string
-  dateBirth: string
-  notes: string
-  status: string
-  createdAt: string
-  updatedAt: string
-}

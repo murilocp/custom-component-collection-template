@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { type FC } from 'react'
-
+import { MessageItem, MessageTypes } from './type'
+import { getMessages, kidnapChat, sendMessage } from './api'
 import { Retool } from '@tryretool/custom-component-support'
 
-import styles from './ChatComponent.module.scss'
-import { getCustomerInfo, getMessages, kidnapChat, sendMessage } from './api'
-import { CustomerInfo, MessageItem, MessageTypes } from './type'
 import MessageBox from './MessageBox'
 import MessageInput from './MessageInput'
+
+import styles from './ChatComponent.module.scss'
 
 export const ChatComponent: FC = () => {
   const [customerId] = Retool.useStateString({
@@ -16,12 +16,19 @@ export const ChatComponent: FC = () => {
   const [token] = Retool.useStateString({
     name: 'token'
   })
+  const [selfieUrl] = Retool.useStateString({
+    name: 'selfieUrl'
+  })
+  const [isKidnapped] = Retool.useStateBoolean({
+    name: 'isKidnapped'
+  })
 
   const messageChat = useRef<HTMLDivElement | null>(null)
 
   const [hasScrolled, setHasScrolled] = useState(false)
   const [messages, setMessages] = useState<MessageItem[]>([])
-  const [customer, setCustomer] = useState<CustomerInfo | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const scrollToLastMessage = () => {
     if (messageChat.current) {
@@ -34,11 +41,16 @@ export const ChatComponent: FC = () => {
   }
 
   const handleSendMessage = async (message: string, type: MessageTypes) => {
+    setIsLoading(true)
     const response = await sendMessage({ customerId, message, type }, token)
 
     if (response.success) {
       await fetchData()
+    } else {
+      setErrorMessage(response.error || '')
     }
+
+    setIsLoading(false)
   }
 
   const fetchData = async () => {
@@ -56,16 +68,15 @@ export const ChatComponent: FC = () => {
   }
 
   const initializeChat = async () => {
+    setIsLoading(true)
     await kidnapChat(customerId, token)
-
-    const response = await getCustomerInfo(customerId, token)
-
-    setCustomer(response?.data || null)
+    setIsLoading(false)
   }
 
-  const finalizeChat = () => {
-    //  console.log('Finalizing chat')
-    kidnapChat(customerId, token, false)
+  const finalizeChat = async () => {
+    setIsLoading(true)
+    await kidnapChat(customerId, token, false)
+    setIsLoading(false)
   }
 
   const onScroll = () => {
@@ -75,7 +86,6 @@ export const ChatComponent: FC = () => {
   }
 
   useEffect(() => {
-    initializeChat()
     fetchData()
 
     const interval = setInterval(() => {
@@ -88,6 +98,14 @@ export const ChatComponent: FC = () => {
       finalizeChat()
     }
   }, [])
+
+  useEffect(() => {
+    if (isKidnapped) {
+      initializeChat()
+    } else {
+      finalizeChat()
+    }
+  }, [isKidnapped])
 
   return (
     <div className={styles.chatWrapper}>
@@ -103,7 +121,7 @@ export const ChatComponent: FC = () => {
           return (
             <div key={item.id}>
               <MessageBox
-                imageSrc={customer?.selfie || ''}
+                imageSrc={selfieUrl || ''}
                 role={item.role || 'assistant'}
                 lastMessageSameUser={lastMessageSameUser}
                 messageContent={item.content}
@@ -115,7 +133,12 @@ export const ChatComponent: FC = () => {
           )
         })}
       </div>
-      <MessageInput sendMessage={handleSendMessage} />
+      <MessageInput
+        sendMessage={handleSendMessage}
+        disabled={!isKidnapped}
+        isLoading={isLoading}
+        errorMessage={errorMessage}
+      />
     </div>
   )
 }

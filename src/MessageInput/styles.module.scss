@@ -35,6 +35,11 @@
       transition: all 0.2s;
     }
 
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     &.chatPaperclipBtn:hover {
       background-color: #121212;
     }
@@ -50,4 +55,10 @@
   .chatMicBtn {
     background-color: #212123;
   }
+}
+
+.chatErrorMessage {
+  color: red;
+  font-size: 12px;
+  margin: 0;
 }

@@ -9,7 +9,8 @@ type Props = {
   mediaPath?: string
   lastMessageSameUser: boolean
   role: MessageRole
-  imageSrc: string
+  imageSrc?: string
+  name?: string
   date: string
   type: MessageTypes
 }
@@ -20,6 +21,7 @@ const MessageBox: React.FC<Props> = ({
   role,
   lastMessageSameUser,
   imageSrc,
+  name,
   date,
   type
 }) => {
@@ -51,7 +53,7 @@ const MessageBox: React.FC<Props> = ({
   return (
     <div className={styles.messageWrapper}>
       {isUser && !lastMessageSameUser ? (
-        <Avatar imageSrc={imageSrc} />
+        <Avatar imageSrc={imageSrc} name={name} />
       ) : (
         <div style={{ width: 30 }} />
       )}

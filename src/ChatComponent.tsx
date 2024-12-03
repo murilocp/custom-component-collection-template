@@ -13,6 +13,9 @@ export const ChatComponent: FC = () => {
   const [customerId] = Retool.useStateString({
     name: 'customerId'
   })
+  const [customerName] = Retool.useStateString({
+    name: 'customerName'
+  })
   const [token] = Retool.useStateString({
     name: 'token'
   })
@@ -122,6 +125,7 @@ export const ChatComponent: FC = () => {
             <div key={item.id}>
               <MessageBox
                 imageSrc={selfieUrl || ''}
+                name={customerName || ''}
                 role={item.role || 'assistant'}
                 lastMessageSameUser={lastMessageSameUser}
                 messageContent={item.content}

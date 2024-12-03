@@ -17,7 +17,7 @@ const Avatar: React.FC<Props> = ({ imageSrc, name }) => {
       {imageSrc && (
         <img src={imageSrc} alt="avatar" className={styles.avatarImg} />
       )}
-      {name && (
+      {!imageSrc && name && (
         <div className={styles.avatarName}>
           <span>{getInitials(name)}</span>
         </div>

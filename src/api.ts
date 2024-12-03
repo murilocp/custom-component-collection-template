@@ -28,6 +28,10 @@ export const getMessages = async (
     const response = await fetch(url, {
       headers
     })
+
+    if (response.status !== 200) {
+      return { error: 'Nenhuma mensagem encontrada', success: false }
+    }
     const data = (await response.json()) as ChatResponse
 
     return { data, success: true }

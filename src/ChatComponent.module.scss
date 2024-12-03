@@ -10,6 +10,24 @@
 
   font-family: 'Inter';
 
+  .chatToggle {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    margin-bottom: 8px;
+
+    gap: 4px;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.75;
+    }
+  }
+
   .chatMessages {
     flex: 1;
     overflow-y: auto;
@@ -22,6 +40,7 @@
     background-color: white;
 
     border-radius: 8px;
+    border: 1px solid #ccc;
   }
 
   .chatInput {

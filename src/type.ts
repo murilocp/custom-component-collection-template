@@ -7,6 +7,12 @@ export type Chat = {
   updatedAt: string
 }
 
+export type Customer = {
+  id: string
+  name: string
+  selfie: string
+}
+
 export type MessageTypes = 'audio' | 'text' | 'document'
 export type MessageRole = 'assistant' | 'user'
 
@@ -33,6 +39,7 @@ export type SendMessagePayload = {
 
 export interface ChatResponse {
   chat: Chat
+  customer: Customer
   messages: MessageItem[]
 }
 

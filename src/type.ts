@@ -3,7 +3,7 @@ export type Chat = {
   context: string
   createdAt: string
   customerId: string
-  role: string
+  role: 'assistant' | 'attendant'
   updatedAt: string
 }
 

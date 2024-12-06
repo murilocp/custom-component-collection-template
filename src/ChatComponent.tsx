@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { type FC } from 'react'
 import { Customer, MessageItem } from './type'
-import { getMessages } from './api'
+import { getMessages, kidnapChat } from './api'
 import { Retool } from '@tryretool/custom-component-support'
 
 import Switch from 'react-switch'
@@ -24,13 +24,16 @@ export const ChatComponent: FC = () => {
   const [messages, setMessages] = useState<MessageItem[]>([])
   const [customer, setCustomer] = useState({} as Customer)
   const [isKidnapped, setIsKidnapped] = useState(false)
+  const [loadingKidnap, setLoadingKidnap] = useState(false)
 
   const scrollToLastMessage = () => {
     if (messageChat.current) {
-      messageChat.current.scrollTop = messageChat.current?.scrollHeight
-      messageChat.current.scroll({
+      const element = messageChat.current
+      const height = messageChat.current.scrollHeight
+
+      element.scrollTo({
         behavior: 'smooth',
-        top: messageChat.current?.scrollHeight
+        top: height
       })
     }
   }
@@ -39,14 +42,16 @@ export const ChatComponent: FC = () => {
     const response = await getMessages(customerId, token)
 
     if (response.success) {
+      setIsKidnapped(response.data?.chat?.role === 'attendant')
       setCustomer(response?.data?.customer || ({} as Customer))
+
       setMessages((prevState) => {
         const currentLength = response?.data?.messages?.length || 0
+
         if (prevState.length < currentLength) {
-          if (!hasScrolled) {
-            scrollToLastMessage()
-          }
+          scrollToLastMessage()
         }
+
         return response?.data?.messages || []
       })
     }
@@ -58,7 +63,19 @@ export const ChatComponent: FC = () => {
     }
   }
 
-  const toggleKidnap = (checked: boolean) => {
+  const updateKidnap = async (kidnap = true) => {
+    try {
+      setLoadingKidnap(true)
+      await kidnapChat(customerId, token, kidnap)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoadingKidnap(false)
+    }
+  }
+
+  const toggleKidnap = async (checked: boolean) => {
+    await updateKidnap(checked)
     setIsKidnapped(checked)
   }
 
@@ -74,6 +91,10 @@ export const ChatComponent: FC = () => {
       clearInterval(interval)
     }
   }, [])
+
+  useEffect(() => {
+    scrollToLastMessage()
+  }, [messages.length])
 
   return (
     <div className={styles.chatWrapper}>
@@ -117,6 +138,7 @@ export const ChatComponent: FC = () => {
       <MessageInput
         customerId={customerId}
         token={token}
+        loadingKidnap={loadingKidnap}
         isKidnapped={isKidnapped}
         fetchData={fetchData}
       />

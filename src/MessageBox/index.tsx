@@ -25,7 +25,7 @@ const MessageBox: React.FC<Props> = ({
   date,
   type
 }) => {
-  const isUser = role === 'user'
+  const isClient = role === 'user'
   const isAudio = type === 'audio' && mediaPath
   const isDocument = type === 'document' && mediaPath
 
@@ -44,24 +44,29 @@ const MessageBox: React.FC<Props> = ({
     }
 
     if (isAudio) {
-      return <audio controls src={mediaPath} />
+      return (
+        <div className={styles.messageAudio}>
+          <audio controls src={mediaPath} />
+          <p className={styles.messageAudioTranscription}>{messageContent}</p>
+        </div>
+      )
     }
 
-    return <p>{messageContent}</p>
+    return <p className={styles.messageTextContent}>{messageContent}</p>
   }
 
   return (
     <div className={styles.messageWrapper}>
-      {isUser && !lastMessageSameUser ? (
+      {isClient && !lastMessageSameUser ? (
         <Avatar imageSrc={imageSrc} name={name} />
       ) : (
-        <div style={{ width: 30 }} />
+        <div style={{ width: 35 }} />
       )}
       <div
-        className={`${styles.messageRow} ${isUser ? styles.messageRow__customerMessage : styles.messageRow__assistantMessage}`}
+        className={`${styles.messageRow} ${isClient ? styles.messageRow__customerMessage : styles.messageRow__assistantMessage}`}
       >
         <div
-          className={`${styles.messageBox} ${isUser ? styles.messageBox__customerMessage : styles.messageBox__assistantMessage} ${isAudio ? styles.messageBox__audio : ''}`}
+          className={`${styles.messageBox} ${isClient ? styles.messageBox__customerMessage : styles.messageBox__assistantMessage} ${isAudio ? styles.messageBox__audio : ''}`}
         >
           {messageContentRender()}
 

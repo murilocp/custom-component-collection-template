@@ -32,7 +32,6 @@ export const ChatComponent: FC = () => {
       const height = messageChat.current.scrollHeight
 
       element.scrollTo({
-        behavior: 'smooth',
         top: height
       })
     }
@@ -126,10 +125,7 @@ export const ChatComponent: FC = () => {
                 name={customer?.name || ''}
                 role={item.role || 'assistant'}
                 lastMessageSameUser={lastMessageSameUser}
-                messageContent={item.content}
-                mediaPath={item.mediaPath}
-                date={item.createdAt}
-                type={item.type}
+                messagePayload={item}
               />
             </div>
           )

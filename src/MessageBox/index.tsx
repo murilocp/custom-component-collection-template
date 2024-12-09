@@ -1,29 +1,26 @@
 import React from 'react'
-import styles from './styles.module.scss'
+import { MessageItem, MessageRole } from '../type'
+
+import { Paperclip, CheckFilled, CheckOutlined } from '../icons'
 import Avatar from '../Avatar'
-import { MessageRole, MessageTypes } from '../type'
-import { Paperclip } from '../icons'
+import AudioMessageTranscription from '../AudioMessageTranscription'
+
+import styles from './styles.module.scss'
 
 type Props = {
-  messageContent?: string
-  mediaPath?: string
+  name?: string
+  imageSrc?: string
   lastMessageSameUser: boolean
   role: MessageRole
-  imageSrc?: string
-  name?: string
-  date: string
-  type: MessageTypes
+  messagePayload: MessageItem
 }
 
 const MessageBox: React.FC<Props> = ({
-  messageContent,
-  mediaPath,
   role,
   lastMessageSameUser,
   imageSrc,
   name,
-  date,
-  type
+  messagePayload: { createdAt, content, mediaPath, type, status, sent }
 }) => {
   const isClient = role === 'user'
   const isAudio = type === 'audio' && mediaPath
@@ -47,12 +44,30 @@ const MessageBox: React.FC<Props> = ({
       return (
         <div className={styles.messageAudio}>
           <audio controls src={mediaPath} />
-          <p className={styles.messageAudioTranscription}>{messageContent}</p>
+          <AudioMessageTranscription transcription={content} />
         </div>
       )
     }
 
-    return <p className={styles.messageTextContent}>{messageContent}</p>
+    return <p className={styles.messageTextContent}>{content}</p>
+  }
+
+  const messageIconRender = () => {
+    const sentStatuses = ['delivered', 'sent']
+
+    if (isClient) return <></>
+
+    if (status === 'read') {
+      return <CheckOutlined width={16} height={16} />
+    }
+
+    if (sentStatuses.includes(status) && !sent) {
+      return <CheckFilled fill="#fff" width={16} height={16} />
+    }
+
+    if (sentStatuses.includes(status) && sent) {
+      return <CheckFilled fill="#32D74B" width={16} height={16} />
+    }
   }
 
   return (
@@ -70,9 +85,12 @@ const MessageBox: React.FC<Props> = ({
         >
           {messageContentRender()}
 
-          <p className={styles.messageDate}>
-            {new Date(date).toLocaleString('pt-BR')}
-          </p>
+          <div className={styles.messageBoxFooter}>
+            <span className={styles.messageDate}>
+              {new Date(createdAt).toLocaleString('pt-BR')}
+            </span>
+            <span className={styles.messageStatus}>{messageIconRender()}</span>
+          </div>
         </div>
       </div>
     </div>

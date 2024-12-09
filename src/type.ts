@@ -13,6 +13,7 @@ export type Customer = {
   selfie: string
 }
 
+export type MessageStatuses = 'read' | 'delivered' | 'processed'
 export type MessageTypes = 'audio' | 'text' | 'document'
 export type MessageRole = 'assistant' | 'user'
 
@@ -26,7 +27,7 @@ export type MessageItem = {
   mediaPath: string
   metaMessageId: string
   sent: boolean
-  status: string
+  status: MessageStatuses
   createdAt: string
   updatedAt: string
 }

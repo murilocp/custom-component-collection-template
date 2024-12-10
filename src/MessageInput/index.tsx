@@ -48,6 +48,8 @@ const MessageInput: React.FC<Props> = ({
   }
 
   const handleSendMessage = async (type: MessageTypes) => {
+    setErrorMessage('')
+
     if (!isValidMessage(message)) {
       return
     }

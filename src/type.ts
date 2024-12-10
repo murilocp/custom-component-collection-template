@@ -13,7 +13,7 @@ export type Customer = {
   selfie: string
 }
 
-export type MessageStatuses = 'read' | 'delivered' | 'processed'
+export type MessageStatuses = 'read' | 'delivered' | 'processed' | 'failed'
 export type MessageTypes = 'audio' | 'text' | 'document'
 export type MessageRole = 'assistant' | 'user'
 
@@ -28,6 +28,7 @@ export type MessageItem = {
   metaMessageId: string
   sent: boolean
   status: MessageStatuses
+  failedReason?: string
   createdAt: string
   updatedAt: string
 }

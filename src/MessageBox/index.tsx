@@ -70,11 +70,7 @@ const MessageBox: React.FC<Props> = ({
       return <CheckFilled fill="#32D74B" width={16} height={16} />
     }
 
-    if (status === 'delivered' && !sent) {
-      return <CheckOutlined width={16} height={16} />
-    }
-
-    if (status === 'delivered' && sent) {
+    if (status === 'delivered') {
       return <CheckFilled fill="#fff" width={16} height={16} />
     }
 

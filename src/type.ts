@@ -13,7 +13,12 @@ export type Customer = {
   selfie: string
 }
 
-export type MessageStatuses = 'read' | 'delivered' | 'processed' | 'failed'
+export type MessageStatuses =
+  | 'read'
+  | 'delivered'
+  | 'sent'
+  | 'processed'
+  | 'failed'
 export type MessageTypes = 'audio' | 'text' | 'document'
 export type MessageRole = 'assistant' | 'user'
 

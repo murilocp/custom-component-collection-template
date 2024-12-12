@@ -16,36 +16,28 @@ type Props = {
   messagePayload: MessageItem
 }
 
+const documentType = ['document', 'image']
+
 const MessageBox: React.FC<Props> = ({
   role,
   lastMessageSameUser,
   imageSrc,
   name,
-  messagePayload: {
-    createdAt,
-    content,
-    mediaPath,
-    type,
-    status,
-    sent,
-    failedReason
-  }
+  messagePayload: { createdAt, content, mediaPath, type, status, failedReason }
 }) => {
   const isClient = role === 'user'
   const isAudio = type === 'audio' && mediaPath
-  const isDocument = type === 'document' && mediaPath
+  const isDocument = documentType.includes(type) && mediaPath
 
   const messageContentRender = () => {
     if (isDocument) {
       return (
-        <a
-          href={mediaPath}
-          target="_blank"
-          rel="noreferrer"
-          className={styles.mediaContentMessage}
-        >
-          <Paperclip fill="#000" /> Arquivo
-        </a>
+        <>
+          <a href={mediaPath} className={styles.mediaContentMessage}>
+            <Paperclip fill="#333" style={{ marginRight: 3 }} /> Arquivo
+          </a>
+          <p className={styles.messageTextContent}>{content}</p>
+        </>
       )
     }
 
@@ -62,12 +54,14 @@ const MessageBox: React.FC<Props> = ({
   }
 
   const messageIconRender = () => {
-    const readStatuses = ['read', 'sent']
-
     if (isClient) return <></>
 
-    if (readStatuses.includes(status)) {
+    if (status === 'read') {
       return <CheckFilled fill="#32D74B" width={16} height={16} />
+    }
+
+    if (status === 'sent') {
+      return <CheckOutlined fill="#fff" width={16} height={16} />
     }
 
     if (status === 'delivered') {

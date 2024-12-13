@@ -17,6 +17,10 @@ export const ChatComponent: FC = () => {
   const [token] = Retool.useStateString({
     name: 'token'
   })
+  const [shouldUpdate, setShouldUpdate] = Retool.useStateBoolean({
+    name: 'shouldUpdate',
+    initialValue: false
+  })
 
   const messageChat = useRef<HTMLDivElement | null>(null)
 
@@ -77,6 +81,13 @@ export const ChatComponent: FC = () => {
     await updateKidnap(checked)
     setIsKidnapped(checked)
   }
+
+  useEffect(() => {
+    if (shouldUpdate) {
+      fetchData()
+      setShouldUpdate(false)
+    }
+  }, [shouldUpdate])
 
   useEffect(() => {
     fetchData()

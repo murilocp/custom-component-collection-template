@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { type FC } from 'react'
+import { Retool } from '@tryretool/custom-component-support'
 import { Customer, MessageItem } from './type'
 import { getMessages, kidnapChat } from './api'
-import { Retool } from '@tryretool/custom-component-support'
 
 import Switch from 'react-switch'
 import MessageBox from './MessageBox'

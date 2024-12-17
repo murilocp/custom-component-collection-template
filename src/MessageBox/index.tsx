@@ -33,7 +33,12 @@ const MessageBox: React.FC<Props> = ({
     if (isDocument) {
       return (
         <>
-          <a href={mediaPath} className={styles.mediaContentMessage}>
+          <a
+            className={styles.mediaContentMessage}
+            href={mediaPath}
+            target="_blank"
+            rel="noreferrer"
+          >
             <Paperclip fill="#333" style={{ marginRight: 3 }} /> Arquivo
           </a>
           <p className={styles.messageTextContent}>{content}</p>

@@ -1,0 +1,13 @@
+.pdfPreviewWrapper {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+
+  margin-bottom: 8px;
+  overflow-y: hidden;
+
+  canvas {
+    border-radius: 8px;
+    overflow-y: hidden;
+  }
+}

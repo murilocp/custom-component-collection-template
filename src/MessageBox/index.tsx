@@ -1,12 +1,18 @@
 import React from 'react'
 import { MessageItem, MessageRole } from '../type'
 
-import { Paperclip, CheckFilled, CheckOutlined, XMark } from '../icons'
+import {
+  Paperclip,
+  CheckFilled,
+  CheckOutlined,
+  XMark,
+  InfoIcon
+} from '../icons'
 import Avatar from '../Avatar'
 import AudioMessageTranscription from '../AudioMessageTranscription'
+import PdfViewer from '../PdfViewer'
 
 import styles from './styles.module.scss'
-import InfoIcon from '../icons/InfoIcon'
 
 type Props = {
   name?: string
@@ -27,9 +33,10 @@ const MessageBox: React.FC<Props> = ({
 }) => {
   const isClient = role === 'user'
   const isAudio = type === 'audio' && mediaPath
-  const isDocument = documentType.includes(type) && mediaPath
 
   const messageContentRender = () => {
+    const isDocument = documentType.includes(type) && mediaPath
+
     if (isDocument) {
       return (
         <>
@@ -39,7 +46,21 @@ const MessageBox: React.FC<Props> = ({
             target="_blank"
             rel="noreferrer"
           >
-            <Paperclip fill="#333" style={{ marginRight: 3 }} /> Arquivo
+            {type === 'image' ? (
+              <div className={styles.imageContentMessage}>
+                <img src={mediaPath} />
+                <span>
+                  <Paperclip fill="#333" style={{ marginRight: 4 }} /> Imagem
+                </span>
+              </div>
+            ) : (
+              <div className={styles.documentContentMessage}>
+                <PdfViewer src={mediaPath} />
+                <span>
+                  <Paperclip fill="#333" style={{ marginRight: 4 }} /> Documento
+                </span>
+              </div>
+            )}
           </a>
           <p className={styles.messageTextContent}>{content}</p>
         </>
@@ -55,7 +76,14 @@ const MessageBox: React.FC<Props> = ({
       )
     }
 
-    return <p className={styles.messageTextContent}>{content}</p>
+    return (
+      <p
+        className={styles.messageTextContent}
+        dangerouslySetInnerHTML={{
+          __html: content.replace(/\*([^*]+?)\*/g, '<strong>$1</strong>')
+        }}
+      />
+    )
   }
 
   const messageIconRender = () => {

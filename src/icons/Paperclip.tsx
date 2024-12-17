@@ -4,9 +4,11 @@ import { IconProps } from '.'
 const Paperclip: React.FC<IconProps> = ({
   fill = '#fff',
   width = 18,
-  height = 20
+  height = 20,
+  ...props
 }) => (
   <svg
+    {...props}
     xmlns="http://www.w3.org/2000/svg"
     width={width}
     height={height}

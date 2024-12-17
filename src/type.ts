@@ -19,7 +19,7 @@ export type MessageStatuses =
   | 'sent'
   | 'processed'
   | 'failed'
-export type MessageTypes = 'audio' | 'text' | 'document'
+export type MessageTypes = 'audio' | 'text' | 'document' | 'image'
 export type MessageRole = 'assistant' | 'user'
 
 export type MessageItem = {

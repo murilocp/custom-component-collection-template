@@ -95,5 +95,42 @@
     display: flex;
 
     margin-bottom: 8px;
+
+    .imageContentMessage {
+      display: flex;
+      flex-direction: column;
+
+      img {
+        max-width: 100%;
+        max-height: 200px;
+        border-radius: 8px;
+
+        margin-bottom: 8px;
+      }
+
+      span {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .documentContentMessage {
+      display: flex;
+      flex-direction: column;
+
+      iframe,
+      embed,
+      object {
+        border-radius: 8px;
+        margin-bottom: 8px;
+
+        border: none;
+      }
+
+      span {
+        display: flex;
+        align-items: center;
+      }
+    }
   }
 }

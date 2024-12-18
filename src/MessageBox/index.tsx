@@ -49,16 +49,10 @@ const MessageBox: React.FC<Props> = ({
             {type === 'image' ? (
               <div className={styles.imageContentMessage}>
                 <img src={mediaPath} />
-                <span>
-                  <Paperclip fill="#333" style={{ marginRight: 4 }} /> Imagem
-                </span>
               </div>
             ) : (
               <div className={styles.documentContentMessage}>
                 <PdfViewer src={mediaPath} />
-                <span>
-                  <Paperclip fill="#333" style={{ marginRight: 4 }} /> Documento
-                </span>
               </div>
             )}
           </a>

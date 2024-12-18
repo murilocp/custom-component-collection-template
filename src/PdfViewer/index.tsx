@@ -5,6 +5,8 @@ import type {
   RenderParameters
 } from 'pdfjs-dist/types/src/display/api'
 
+import { Paperclip } from '../icons'
+
 import styles from './styles.module.scss'
 
 interface Props {
@@ -76,6 +78,8 @@ export default function PdfViewer({ src }: Props) {
       <canvas ref={canvasRef} />
     </div>
   ) : (
-    <></>
+    <span>
+      <Paperclip fill="#333" style={{ marginRight: 4 }} /> Documento
+    </span>
   )
 }

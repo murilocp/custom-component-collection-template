@@ -1,13 +1,7 @@
 import React from 'react'
 import { MessageItem, MessageRole } from '../type'
 
-import {
-  Paperclip,
-  CheckFilled,
-  CheckOutlined,
-  XMark,
-  InfoIcon
-} from '../icons'
+import { CheckFilled, CheckOutlined, XMark, InfoIcon } from '../icons'
 import Avatar from '../Avatar'
 import AudioMessageTranscription from '../AudioMessageTranscription'
 import PdfViewer from '../PdfViewer'
